@@ -3,30 +3,63 @@ import { MetricCard } from '@/components/ui/MetricCard';
 import { Heart } from 'lucide-react';
 
 describe('MetricCard', () => {
-  it('renders with correct props', () => {
+  it('renders title and value', () => {
     render(
       <MetricCard
-        title="Test Metric"
-        value="100"
-        delta={5}
+        title="Likes"
+        value="1,234"
         icon={Heart}
-        variant="success"
       />
     );
-
-    expect(screen.getByText('Test Metric')).toBeInTheDocument();
-    expect(screen.getByText('100')).toBeInTheDocument();
-    expect(screen.getByText('5%')).toBeInTheDocument();
-    expect(screen.getByTestId('heart-icon')).toBeInTheDocument();
+    expect(screen.getByText('Likes')).toBeInTheDocument();
+    expect(screen.getByText('1,234')).toBeInTheDocument();
   });
 
-  it('shows positive delta with up arrow', () => {
-    render(<MetricCard title="Test" value="100" delta={5} icon={Heart} />);
+  it('renders with different variants', () => {
+    const { rerender } = render(
+      <MetricCard
+        title="Success"
+        value="100"
+        variant="success"
+        icon={Heart}
+      />
+    );
+    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-emerald-500/10');
+
+    rerender(
+      <MetricCard
+        title="Danger"
+        value="50"
+        variant="danger"
+        icon={Heart}
+      />
+    );
+    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-rose-500/10');
+  });
+
+  it('renders delta indicator when provided', () => {
+    render(
+      <MetricCard
+        title="Growth"
+        value="20%"
+        delta={15}
+        icon={Heart}
+      />
+    );
     expect(screen.getByTestId('trending-up-icon')).toBeInTheDocument();
+    expect(screen.getByText('15%')).toBeInTheDocument();
   });
 
-  it('shows negative delta with down arrow', () => {
-    render(<MetricCard title="Test" value="100" delta={-3} icon={Heart} />);
+  it('renders negative delta indicator', () => {
+    render(
+      <MetricCard
+        title="Decline"
+        value="10%"
+        delta={-5}
+        icon={Heart}
+      />
+    );
     expect(screen.getByTestId('trending-down-icon')).toBeInTheDocument();
+    expect(screen.getByText('5%')).toBeInTheDocument();
   });
 });
