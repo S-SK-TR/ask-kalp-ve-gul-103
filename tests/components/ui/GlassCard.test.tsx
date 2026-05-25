@@ -5,20 +5,15 @@ describe('GlassCard Component', () => {
   it('renders children correctly', () => {
     render(
       <GlassCard>
-        <div>Test Content</div>
+        <div data-testid="card-content">Card Content</div>
       </GlassCard>
     );
 
-    expect(screen.getByText('Test Content')).toBeInTheDocument();
+    expect(screen.getByTestId('card-content')).toBeInTheDocument();
   });
 
   it('applies glass-card class', () => {
-    const { container } = render(
-      <GlassCard>
-        <div>Test Content</div>
-      </GlassCard>
-    );
-
+    const { container } = render(<GlassCard />);
     expect(container.firstChild).toHaveClass('glass-card');
   });
 });

@@ -4,19 +4,22 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 describe('LoadingSpinner Component', () => {
   it('renders with default size', () => {
     render(<LoadingSpinner />);
-    const spinner = screen.getByTestId('loader-icon');
+    const spinner = screen.getByRole('status');
     expect(spinner).toHaveClass('h-6');
     expect(spinner).toHaveClass('w-6');
   });
 
-  it('renders with different sizes', () => {
-    const { rerender } = render(<LoadingSpinner size="sm" />);
-    expect(screen.getByTestId('loader-icon')).toHaveClass('h-4');
+  it('renders with small size', () => {
+    render(<LoadingSpinner size="sm" />);
+    const spinner = screen.getByRole('status');
+    expect(spinner).toHaveClass('h-4');
+    expect(spinner).toHaveClass('w-4');
+  });
 
-    rerender(<LoadingSpinner size="md" />);
-    expect(screen.getByTestId('loader-icon')).toHaveClass('h-6');
-
-    rerender(<LoadingSpinner size="lg" />);
-    expect(screen.getByTestId('loader-icon')).toHaveClass('h-8');
+  it('renders with large size', () => {
+    render(<LoadingSpinner size="lg" />);
+    const spinner = screen.getByRole('status');
+    expect(spinner).toHaveClass('h-8');
+    expect(spinner).toHaveClass('w-8');
   });
 });

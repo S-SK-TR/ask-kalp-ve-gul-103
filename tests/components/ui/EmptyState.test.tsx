@@ -15,12 +15,12 @@ describe('EmptyState Component', () => {
     expect(screen.getByText('There is no data available')).toBeInTheDocument();
   });
 
-  it('renders with icon when provided', () => {
+  it('renders with icon', () => {
     render(
       <EmptyState
         title="No Data"
         description="There is no data available"
-        icon={<Heart />}
+        icon={<Heart data-testid="heart-icon" />}
       />
     );
 
@@ -33,14 +33,14 @@ describe('EmptyState Component', () => {
       <EmptyState
         title="No Data"
         description="There is no data available"
-        actionText="Add Data"
+        actionText="Create New"
         onAction={handleAction}
       />
     );
 
-    const actionButton = screen.getByText('Add Data');
-    expect(actionButton).toBeInTheDocument();
-    fireEvent.click(actionButton);
+    const button = screen.getByText('Create New');
+    expect(button).toBeInTheDocument();
+    fireEvent.click(button);
     expect(handleAction).toHaveBeenCalledTimes(1);
   });
 });

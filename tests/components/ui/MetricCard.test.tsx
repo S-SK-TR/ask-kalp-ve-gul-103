@@ -16,59 +16,78 @@ describe('MetricCard Component', () => {
     expect(screen.getByText('1,234')).toBeInTheDocument();
   });
 
+  it('renders with icon', () => {
+    render(
+      <MetricCard
+        title="Likes"
+        value="1,234"
+        icon={Heart}
+      />
+    );
+
+    expect(screen.getByTestId('heart-icon')).toBeInTheDocument();
+  });
+
+  it('renders with delta indicator', () => {
+    render(
+      <MetricCard
+        title="Likes"
+        value="1,234"
+        delta={5}
+        icon={Heart}
+      />
+    );
+
+    expect(screen.getByText('5%')).toBeInTheDocument();
+    expect(screen.getByTestId('trending-up-icon')).toBeInTheDocument();
+  });
+
+  it('renders negative delta indicator', () => {
+    render(
+      <MetricCard
+        title="Likes"
+        value="1,234"
+        delta={-3}
+        icon={Heart}
+      />
+    );
+
+    expect(screen.getByText('3%')).toBeInTheDocument();
+    expect(screen.getByTestId('trending-down-icon')).toBeInTheDocument();
+  });
+
   it('renders with different variants', () => {
     const { rerender } = render(
       <MetricCard
-        title="Success"
-        value="100"
-        variant="success"
+        title="Likes"
+        value="1,234"
         icon={Heart}
-      />
-    );
-    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-emerald-500/10');
-
-    rerender(
-      <MetricCard
-        title="Danger"
-        value="50"
-        variant="danger"
-        icon={Heart}
-      />
-    );
-    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-rose-500/10');
-
-    rerender(
-      <MetricCard
-        title="Default"
-        value="75"
         variant="default"
-        icon={Heart}
       />
     );
-    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-blue-500/10');
-  });
 
-  it('renders delta indicator when provided', () => {
-    const { rerender } = render(
-      <MetricCard
-        title="Positive"
-        value="100"
-        delta={10}
-        icon={Heart}
-      />
-    );
-    expect(screen.getByTestId('trending-up-icon')).toBeInTheDocument();
-    expect(screen.getByText('10%')).toBeInTheDocument();
+    expect(screen.getByTestId('heart-icon').parentElement).toHaveClass('bg-blue-500/10');
 
     rerender(
       <MetricCard
-        title="Negative"
-        value="50"
-        delta={-5}
+        title="Likes"
+        value="1,234"
         icon={Heart}
+        variant="success"
       />
     );
-    expect(screen.getByTestId('trending-down-icon')).toBeInTheDocument();
-    expect(screen.getByText('5%')).toBeInTheDocument();
+
+    expect(screen.getByTestId('heart-icon').parentElement).toHaveClass('bg-emerald-500/10');
+
+    rerender(
+      <MetricCard
+        title="Likes"
+        value="1,234"
+        icon={Heart}
+        variant="danger"
+      />
+    );
+
+    expect(screen.getByTestId('heart-icon').parentElement).toHaveClass('bg-rose-500/10');
   });
 });

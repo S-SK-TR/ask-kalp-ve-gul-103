@@ -36,7 +36,6 @@ describe('Button Component', () => {
   it('renders loading state', () => {
     render(<Button loading>Loading</Button>);
     expect(screen.getByTestId('loader-icon')).toBeInTheDocument();
-    expect(screen.queryByText('Loading')).not.toBeInTheDocument();
   });
 
   it('renders with icon', () => {

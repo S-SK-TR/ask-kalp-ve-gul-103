@@ -5,17 +5,17 @@ describe('PageContainer Component', () => {
   it('renders children correctly', () => {
     render(
       <PageContainer>
-        <div>Test Content</div>
+        <div data-testid="child-element">Test Content</div>
       </PageContainer>
     );
 
-    expect(screen.getByText('Test Content')).toBeInTheDocument();
+    expect(screen.getByTestId('child-element')).toBeInTheDocument();
   });
 
   it('renders title and description when provided', () => {
     render(
       <PageContainer title="Test Title" description="Test Description">
-        <div>Test Content</div>
+        <div>Content</div>
       </PageContainer>
     );
 
@@ -24,13 +24,12 @@ describe('PageContainer Component', () => {
   });
 
   it('renders actions when provided', () => {
-    const actions = <button>Test Action</button>;
     render(
-      <PageContainer actions={actions}>
-        <div>Test Content</div>
+      <PageContainer actions={<button data-testid="action-button">Action</button>}>
+        <div>Content</div>
       </PageContainer>
     );
 
-    expect(screen.getByText('Test Action')).toBeInTheDocument();
+    expect(screen.getByTestId('action-button')).toBeInTheDocument();
   });
 });
