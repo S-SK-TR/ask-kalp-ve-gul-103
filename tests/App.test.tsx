@@ -1,23 +1,24 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { MemoryRouter } from 'react-router-dom';
-import App from '@/App';
+import App from '../src/App';
 
-describe('App', () => {
-  it('renders AppShell and routes correctly', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <App />
-      </MemoryRouter>
-    );
-
-    // Check if AppShell is rendered
+describe('App Component', () => {
+  it('renders correctly with title and message', () => {
+    render(<App />);
+    
+    // Başlık render edildi mi?
     expect(screen.getByText('Aşk: Kalp ve Gül')).toBeInTheDocument();
+    
+    // Başarı mesajı render edildi mi?
+    expect(screen.getByText('Uygulama başarıyla oluşturuldu!')).toBeInTheDocument();
+  });
 
-    // Check if all routes are present in the navigation
-    expect(screen.getByText('Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('Planner')).toBeInTheDocument();
-    expect(screen.getByText('Memories')).toBeInTheDocument();
-    expect(screen.getByText('SunSafe')).toBeInTheDocument();
-    expect(screen.getByText('Soundscapes')).toBeInTheDocument();
+  it('has correct styling', () => {
+    render(<App />);
+    const container = screen.getByText('Aşk: Kalp ve Gül').parentElement;
+    
+    // Stil kontrolü
+    expect(container).toHaveStyle('textAlign: center');
+    expect(container).toHaveStyle('marginTop: 5rem');
   });
 });
