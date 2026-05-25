@@ -2,7 +2,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { Button } from '@/components/ui/Button';
 import { Heart } from 'lucide-react';
 
-describe('Button', () => {
+describe('Button Component', () => {
   it('renders children correctly', () => {
     render(<Button>Click Me</Button>);
     expect(screen.getByText('Click Me')).toBeInTheDocument();
@@ -17,6 +17,9 @@ describe('Button', () => {
 
     rerender(<Button variant="ghost">Ghost</Button>);
     expect(screen.getByText('Ghost')).toHaveClass('hover:bg-[var(--bg-elevated)]');
+
+    rerender(<Button variant="destructive">Destructive</Button>);
+    expect(screen.getByText('Destructive')).toHaveClass('bg-rose-600');
   });
 
   it('renders with different sizes', () => {
@@ -30,7 +33,7 @@ describe('Button', () => {
     expect(screen.getByText('Large')).toHaveClass('h-12');
   });
 
-  it('shows loading state', () => {
+  it('renders loading state', () => {
     render(<Button loading>Loading</Button>);
     expect(screen.getByTestId('loader-icon')).toBeInTheDocument();
     expect(screen.queryByText('Loading')).not.toBeInTheDocument();

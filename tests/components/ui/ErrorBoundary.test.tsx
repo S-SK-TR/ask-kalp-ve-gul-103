@@ -1,46 +1,40 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
-const ProblemChild = () => {
+const ErrorComponent = () => {
   throw new Error('Test error');
-  return <div>This should not render</div>;
 };
 
-describe('ErrorBoundary', () => {
-  it('renders children when there is no error', () => {
+describe('ErrorBoundary Component', () => {
+  it('renders children when no error', () => {
     render(
       <ErrorBoundary>
-        <div>Normal content</div>
+        <div>Test Content</div>
       </ErrorBoundary>
     );
-    expect(screen.getByText('Normal content')).toBeInTheDocument();
+
+    expect(screen.getByText('Test Content')).toBeInTheDocument();
   });
 
-  it('renders fallback UI when there is an error', () => {
+  it('renders fallback UI when error occurs', () => {
     render(
       <ErrorBoundary>
-        <ProblemChild />
+        <ErrorComponent />
       </ErrorBoundary>
     );
+
     expect(screen.getByText('Something went wrong')).toBeInTheDocument();
-    expect(screen.getByText('Try Again')).toBeInTheDocument();
+    expect(screen.getByText('Test error')).toBeInTheDocument();
   });
 
-  it('resets error boundary when clicking try again', () => {
-    const { rerender } = render(
+  it('resets error boundary when button is clicked', () => {
+    render(
       <ErrorBoundary>
-        <ProblemChild />
+        <ErrorComponent />
       </ErrorBoundary>
     );
 
     fireEvent.click(screen.getByText('Try Again'));
-
-    rerender(
-      <ErrorBoundary>
-        <div>Normal content</div>
-      </ErrorBoundary>
-    );
-
-    expect(screen.getByText('Normal content')).toBeInTheDocument();
+    expect(screen.queryByText('Something went wrong')).not.toBeInTheDocument();
   });
 });

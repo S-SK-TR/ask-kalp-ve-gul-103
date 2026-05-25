@@ -2,36 +2,44 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { AppShell } from '@/components/layout/AppShell';
 
-describe('AppShell', () => {
-  it('renders the sidebar with navigation items', () => {
+describe('AppShell Component', () => {
+  it('renders all navigation items', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={[ '/' ]}>
         <AppShell />
       </MemoryRouter>
     );
+
+    // Check desktop sidebar items
     expect(screen.getByText('Dashboard')).toBeInTheDocument();
     expect(screen.getByText('Planner')).toBeInTheDocument();
     expect(screen.getByText('Memories')).toBeInTheDocument();
     expect(screen.getByText('SunSafe')).toBeInTheDocument();
     expect(screen.getByText('Soundscapes')).toBeInTheDocument();
+
+    // Check mobile bottom nav items
+    expect(screen.getAllByText('Dashboard').length).toBeGreaterThan(1);
   });
 
-  it('renders the mobile bottom navigation', () => {
+  it('highlights active route', () => {
     render(
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={[ '/planner' ]}>
         <AppShell />
       </MemoryRouter>
     );
-    expect(screen.getByText('Dashboard')).toBeInTheDocument();
-    expect(screen.getByText('Planner')).toBeInTheDocument();
+
+    const activeItem = screen.getByText('Planner').closest('a');
+    expect(activeItem).toHaveClass('bg-blue-500/10');
   });
 
-  it('highlights the active route', () => {
+  it('renders user profile section', () => {
     render(
-      <MemoryRouter initialEntries={['/planner']}>
+      <MemoryRouter initialEntries={[ '/' ]}>
         <AppShell />
       </MemoryRouter>
     );
-    expect(screen.getByText('Planner').closest('a')).toHaveClass('bg-blue-500/10');
+
+    expect(screen.getByText('John Doe')).toBeInTheDocument();
+    expect(screen.getByText('john@example.com')).toBeInTheDocument();
   });
 });

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MetricCard } from '@/components/ui/MetricCard';
 import { Heart } from 'lucide-react';
 
-describe('MetricCard', () => {
+describe('MetricCard Component', () => {
   it('renders title and value', () => {
     render(
       <MetricCard
@@ -11,6 +11,7 @@ describe('MetricCard', () => {
         icon={Heart}
       />
     );
+
     expect(screen.getByText('Likes')).toBeInTheDocument();
     expect(screen.getByText('1,234')).toBeInTheDocument();
   });
@@ -35,26 +36,34 @@ describe('MetricCard', () => {
       />
     );
     expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-rose-500/10');
+
+    rerender(
+      <MetricCard
+        title="Default"
+        value="75"
+        variant="default"
+        icon={Heart}
+      />
+    );
+    expect(screen.getByTestId('heart-icon').closest('div')).toHaveClass('bg-blue-500/10');
   });
 
   it('renders delta indicator when provided', () => {
-    render(
+    const { rerender } = render(
       <MetricCard
-        title="Growth"
-        value="20%"
-        delta={15}
+        title="Positive"
+        value="100"
+        delta={10}
         icon={Heart}
       />
     );
     expect(screen.getByTestId('trending-up-icon')).toBeInTheDocument();
-    expect(screen.getByText('15%')).toBeInTheDocument();
-  });
+    expect(screen.getByText('10%')).toBeInTheDocument();
 
-  it('renders negative delta indicator', () => {
-    render(
+    rerender(
       <MetricCard
-        title="Decline"
-        value="10%"
+        title="Negative"
+        value="50"
         delta={-5}
         icon={Heart}
       />
